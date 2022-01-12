@@ -1,0 +1,1 @@
+Compress-Archive ./ MyFolder.zip
