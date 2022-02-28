@@ -1,0 +1,15 @@
+makecert -pe -ss MicrosoftMMXChina -n CN="ES" "simplemediasourcedriver.cer" -r
+stampinf -f SimpleMediaSourceDriver.inf -d 02/27/2022 -v 71.93.7193.0
+
+inf2cat /driver:D:\r\Windows-driver-samples\general\SimpleMediaSource\x64\Release\SimpleMediaSourceDriver /os:10_RS5_X64
+
+certmgr /add simplemediasourcedriver.cer /s /r LocalMachine root
+certmgr /add simplemediasourcedriver.cer /s /r LocalMachine trustedpublisher
+signtool sign /a /fd SHA256 /v /s MicrosoftMMXChina /n "ES" simplemediasourcedriver.cat
+signtool sign /a /fd SHA256 /v /s MicrosoftMMXChina /n "ES" simplemediasourcedriver.dll
+
+
+bcdedit -set loadoptions DISABLE_INTEGRITY_CHECKS
+bcdedit -set loadoptions TESTSIGNING ON
+bcdedit /set TESTSIGNING ON
+bcdedit /set nointegritychecks on
